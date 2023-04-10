@@ -1,5 +1,11 @@
 [
   {
+    "key": "chengzz-chatgpt-prompts",
+    "desc": "诚哥专用ChatGPT Prompts",
+    "downloadUrl": "/ChengzzChatGPTPrompt.json",
+    "url": "https://github.com/Rakers1024/Rakers1024"
+  },
+  {
     "key": "awesome-chatgpt-prompts-zh",
     "desc": "ChatGPT 中文调教指南",
     "downloadUrl": "https://raw.githubusercontent.com/PlexPt/awesome-chatgpt-prompts-zh/main/prompts-zh.json",
