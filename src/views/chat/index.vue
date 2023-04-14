@@ -464,6 +464,20 @@ onUnmounted(() => {
   if (loading.value)
     controller.abort()
 })
+
+const autoCompleteRef = ref<any>(null);
+
+const handleTabKeydown = (e:any) => {
+  if(e.key == "Tab"){
+    //获取.v-vl-visible-items
+    const visibleItems = document.getElementsByClassName("v-vl-visible-items")[0];
+    //查看.n-base-select-option--pending在子元素的第几个上
+    const pendingIndex = Array.from(visibleItems.getElementsByClassName("n-base-select-option")).findIndex((item:any) => item.classList.contains("n-base-select-option--pending"));
+    const autoComplete = autoCompleteRef.value
+    const options = autoComplete.options
+    autoComplete.handleInput(options[pendingIndex].value);
+  }
+};
 </script>
 
 <template>
@@ -531,14 +545,14 @@ onUnmounted(() => {
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>
-          <NAutoComplete v-model:value="prompt" :options="searchOptions" :render-label="renderOption">
+          <NAutoComplete ref="autoCompleteRef" v-model:value="prompt" :options="searchOptions" :render-label="renderOption" @keydown.tab.prevent="handleTabKeydown">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
                 ref="inputRef"
                 v-model:value="prompt"
                 type="textarea"
                 :placeholder="placeholder"
-                :autosize="{ minRows: 1, maxRows: isMobile ? 4 : 8 }"
+                :autosize="{ minRows: 3, maxRows: isMobile ? 4 : 12 }"
                 @input="handleInput"
                 @focus="handleFocus"
                 @blur="handleBlur"
