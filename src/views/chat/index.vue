@@ -543,27 +543,31 @@ const apiTypeOptions = apiStore.apiTypeOptions
     <footer :class="footerClass">
       <div class="w-full max-w-screen-xl m-auto">
         <div class="flex items-center justify-between space-x-2">
-          <HoverButton @click="handleClear">
-            <span class="text-xl text-[#4f555e] dark:text-white">
-              <SvgIcon icon="ri:delete-bin-line" />
-            </span>
-          </HoverButton>
-          <HoverButton v-if="!isMobile" @click="handleExport">
-            <span class="text-xl text-[#4f555e] dark:text-white">
-              <SvgIcon icon="ri:download-2-line" />
-            </span>
-          </HoverButton>
-          <HoverButton v-if="!isMobile" @click="toggleUsingContext">
-            <span class="text-xl" :class="{ 'text-[#4b9e5f]': usingContext, 'text-[#a8071a]': !usingContext }">
-              <SvgIcon icon="ri:chat-history-line" />
-            </span>
-          </HoverButton>
-          <NSelect
-            style="width: 140px"
-            :value="apiType"
-            :options="apiTypeOptions"
-            @update-value="value => apiStore.setApiType(value)"
-          />
+          <div class="flex flex-col">
+            <NSelect
+              style="width: 120px"
+              :value="apiType"
+              :options="apiTypeOptions"
+              @update-value="value => apiStore.setApiType(value)"
+            />
+            <div class="flex flex-row">
+              <HoverButton @click="handleClear">
+                <span class="text-xl text-[#4f555e] dark:text-white">
+                  <SvgIcon icon="ri:delete-bin-line" />
+                </span>
+              </HoverButton>
+              <HoverButton v-if="!isMobile" @click="handleExport">
+                <span class="text-xl text-[#4f555e] dark:text-white">
+                  <SvgIcon icon="ri:download-2-line" />
+                </span>
+              </HoverButton>
+              <HoverButton v-if="!isMobile" @click="toggleUsingContext">
+                <span class="text-xl" :class="{ 'text-[#4b9e5f]': usingContext, 'text-[#a8071a]': !usingContext }">
+                  <SvgIcon icon="ri:chat-history-line" />
+                </span>
+              </HoverButton>
+            </div>
+          </div>
           <NAutoComplete ref="autoCompleteRef" v-model:value="prompt" :options="searchOptions" :render-label="renderOption" @keydown.tab.prevent="handleTabKeydown">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
