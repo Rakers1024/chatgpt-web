@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import type { Ref } from 'vue'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { NAutoComplete, NButton, NInput, useDialog, NSelect, useMessage } from 'naive-ui'
@@ -491,6 +491,31 @@ const apiType = computed({
   },
 })
 const apiTypeOptions = apiStore.apiTypeOptions
+
+
+const historys = computed(() => {
+  return dataSources.value.filter(item=>item.inversion).map(item=>item.text);
+})
+let historyIndex = historys.value.length;
+watch(()=>historys,(val)=>{
+  historyIndex = historys.value.length;
+})
+const handleKeydown = (e: KeyboardEvent) => {
+  if(prompt.value && !historys.value.includes(prompt.value))return
+  if (e.key === 'ArrowUp') {
+    historyIndex--;
+  }else if(e.key === 'ArrowDown'){
+    historyIndex++;
+  }
+  if(historyIndex<0){
+    historyIndex = 0;
+  }
+  if(historyIndex>historys.value.length-1){
+    historyIndex = historys.value.length-1;
+  }
+  const autoComplete = autoCompleteRef.value
+  autoComplete.handleInput(historys.value[historyIndex]);
+}
 </script>
 
 <template>
@@ -568,7 +593,11 @@ const apiTypeOptions = apiStore.apiTypeOptions
               </HoverButton>
             </div>
           </div>
-          <NAutoComplete ref="autoCompleteRef" v-model:value="prompt" :options="searchOptions" :render-label="renderOption" @keydown.tab.prevent="handleTabKeydown">
+          <NAutoComplete ref="autoCompleteRef" v-model:value="prompt" :options="searchOptions" :render-label="renderOption"
+          @keydown.up.prevent="handleKeydown"
+          @keydown.down.prevent="handleKeydown"
+          @keydown.tab.prevent="handleTabKeydown"
+          >
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
                 ref="inputRef"
