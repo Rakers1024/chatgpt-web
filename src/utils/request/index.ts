@@ -49,9 +49,9 @@ function http<T = any>(
   const params = Object.assign(typeof data === 'function' ? data() : data ?? {}, {})
 
   return method === 'GET'
-  //@ts-nocheck
+    //@ts-ignore
     ? request.get(url, { isToken,params, signal, onDownloadProgress }).then(successHandler, failHandler)
-  //@ts-nocheck
+    //@ts-ignore
     : request.post(url, params, { isToken,headers, signal, onDownloadProgress }).then(successHandler, failHandler)
 }
 
