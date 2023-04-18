@@ -37,9 +37,8 @@ export default defineConfig((env) => {
       open: false,
       proxy: {
         '/api': {
-          target: viteEnv.VITE_APP_API_BASE_URL,
+          target: 'https://chat.rakers.top',
           changeOrigin: true, // 允许跨域
-          rewrite: path => path.replace('/api/', '/'),
         },
       },
     },
