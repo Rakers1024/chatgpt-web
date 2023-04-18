@@ -3,7 +3,7 @@ import type { Ref } from 'vue'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
-import { NAutoComplete, NButton, NInput, useDialog, useMessage } from 'naive-ui'
+import { NAutoComplete, NButton, NInput, useDialog, NSelect, useMessage } from 'naive-ui'
 import html2canvas from 'html2canvas'
 import { Message } from './components'
 import { useScroll } from './hooks/useScroll'
@@ -13,9 +13,10 @@ import { useUsingContext } from './hooks/useUsingContext'
 import HeaderComponent from './components/Header/index.vue'
 import { HoverButton, SvgIcon } from '@/components/common'
 import { useBasicLayout } from '@/hooks/useBasicLayout'
-import { useChatStore, usePromptStore } from '@/store'
+import { useApiStore, useChatStore, usePromptStore } from '@/store'
 import { fetchChatAPIProcess } from '@/api'
 import { t } from '@/locales'
+import { APIType } from '@/store/modules/api/helper'
 
 let controller = new AbortController()
 
@@ -25,6 +26,7 @@ const route = useRoute()
 const dialog = useDialog()
 const ms = useMessage()
 
+const apiStore = useApiStore()
 const chatStore = useChatStore()
 
 useCopyCode()
@@ -478,6 +480,17 @@ const handleTabKeydown = (e:any) => {
     autoComplete.handleInput(options[pendingIndex].value);
   }
 };
+
+//设置api类型
+const apiType = computed({
+  get() {
+    return apiStore.apiType
+  },
+  set(value: APIType) {
+    apiStore.setApiType(value)
+  },
+})
+const apiTypeOptions = apiStore.apiTypeOptions
 </script>
 
 <template>
@@ -545,6 +558,12 @@ const handleTabKeydown = (e:any) => {
               <SvgIcon icon="ri:chat-history-line" />
             </span>
           </HoverButton>
+          <NSelect
+            style="width: 140px"
+            :value="apiType"
+            :options="apiTypeOptions"
+            @update-value="value => apiStore.setApiType(value)"
+          />
           <NAutoComplete ref="autoCompleteRef" v-model:value="prompt" :options="searchOptions" :render-label="renderOption" @keydown.tab.prevent="handleTabKeydown">
             <template #default="{ handleInput, handleBlur, handleFocus }">
               <NInput
