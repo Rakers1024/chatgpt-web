@@ -16,17 +16,17 @@ export interface APITypeState {
 
 export function defaultSetting(): APITypeState {
   return { 
-    apiType: 'chat-process', 
+    apiType: 'atApi', 
     apiTypeOptions: [
-      {
-        label: '私人',
-        key: 'chat-process',
-        value: 'chat-process'
-      },
       {
         label: 'AT官网',
         key: 'atApi',
         value: 'atApi'
+      },
+      {
+        label: '私人',
+        key: 'chat-process',
+        value: 'chat-process'
       },
       {
         label: 'Free 1',
