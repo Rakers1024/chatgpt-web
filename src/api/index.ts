@@ -48,7 +48,7 @@ export function fetchChatAPIProcess<T = any>(
   return post<T>({
     url: '/'+apiStore.apiType,
     data,
-    isToken: apiStore.apiType=='chat-process',
+    isToken: ['chat-process', 'atApi'].includes(apiStore.apiType),
     signal: params.signal,
     onDownloadProgress: params.onDownloadProgress,
   })

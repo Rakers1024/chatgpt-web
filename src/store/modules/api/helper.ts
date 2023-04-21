@@ -2,7 +2,7 @@ import { ss } from '@/utils/storage'
 
 const LOCAL_NAME = 'APIType'
 
-export type APIType = 'chat-process' | 'free1' | 'free2' | 'free3'
+export type APIType = 'chat-process' | 'atApi' | 'free1' | 'free2' | 'free3'
 
 
 export interface APITypeState {
@@ -22,6 +22,11 @@ export function defaultSetting(): APITypeState {
         label: '私人',
         key: 'chat-process',
         value: 'chat-process'
+      },
+      {
+        label: 'AT官网',
+        key: 'atApi',
+        value: 'atApi'
       },
       {
         label: 'Free 1',
