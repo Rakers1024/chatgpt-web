@@ -39,7 +39,7 @@ export default defineConfig((env) => {
         '/api': {
           target: 'https://chat.rakers.top',
           changeOrigin: true, // 允许跨域
-        },
+          },
       },
     },
     build: {
